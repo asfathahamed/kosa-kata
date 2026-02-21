@@ -2,8 +2,14 @@
   "name": "indonesian-word-animation",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "npx http-server . -p 5173",
-    "build": "echo 'No build step needed for static site'"
+    "build": "echo 'No build step needed for static site'",
+    "export-video": "node export-video.js"
+  },
+  "devDependencies": {
+    "puppeteer": "^21.0.0",
+    "fs-extra": "^11.0.0"
   }
 }

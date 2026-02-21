@@ -1,0 +1,27 @@
+{
+  "root": "BENTUK",
+  "translation": "Shape / Form",
+  "derivations": [
+    {
+      "prefix": "Mem-",
+      "body": "bentuk",
+      "fullWord": "Membentuk",
+      "meaning": "To form / To shape something"
+    },
+    {
+      "prefix": "Ber-",
+      "body": "bentuk",
+      "fullWord": "Berbentuk",
+      "meaning": "To have the shape of..."
+    },
+    {
+      "prefix": "Pem-",
+      "body": "bentuk",
+      "suffix": "-an",
+      "fullWord": "Pembentukan",
+      "meaning": "The formation / The molding"
+    }
+  ],
+  "sentence_id": "Tim ini sedang membentuk strategi baru.",
+  "sentence_en": "This team is currently forming a new strategy."
+}
