@@ -1,0 +1,45 @@
+{
+  "root": "JALUR",
+  "translation": "Path / Route",
+  "derivations": [
+    {
+      "prefix": "Ber-",
+      "body": "jalur",
+      "fullWord": "Berjalur",
+      "meaning": "Striped"
+    },
+    {
+      "prefix": "Men-",
+      "body": "jalur",
+      "fullWord": "Menjalur",
+      "meaning": "To form a path"
+    },
+    {
+      "prefix": "Pen-",
+      "body": "jalur",
+      "suffix": "-an",
+      "fullWord": "Penjaluran",
+      "meaning": "Routing"
+    }
+  ],
+  "sentence_id": "Kita harus tetap berada di jalur yang benar.",
+  "sentence_en": "We must stay on the right path.",
+  "_previous_words": [
+    "Besar",
+    "Tulis",
+    "Makan",
+    "Baik",
+    "Atur",
+    "Terang",
+    "Hubung",
+    "Kembang",
+    "Cipta",
+    "Guna",
+    "Bentuk",
+    "Susun",
+    "Harga",
+    "Ambil",
+    "Kuasa",
+    "JALUR"
+  ]
+}

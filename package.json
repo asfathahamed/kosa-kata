@@ -4,11 +4,19 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "npx http-server . -p 5173",
-    "build": "echo 'No build step needed for static site'",
-    "export-video": "node export-video.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5173",
+    "export-video": "node ./scripts/export-video.js"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "@originjs/vite-plugin-federation": "^1.4.1",
     "puppeteer": "^21.0.0",
     "fs-extra": "^11.0.0"
   }

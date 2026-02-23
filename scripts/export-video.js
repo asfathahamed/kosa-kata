@@ -7,8 +7,9 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const OUTPUT_DIR = path.join(__dirname, "video-frames");
-const VIDEO_OUTPUT_DIR = path.join(__dirname, "output-video");
+// Adjusted paths to point to the project root (one level up from scripts/)
+const OUTPUT_DIR = path.join(__dirname, "../video-frames");
+const VIDEO_OUTPUT_DIR = path.join(__dirname, "../output-video");
 let VIDEO_OUTPUT = null; // will be set dynamically using the root word and timestamp
 const DURATION = 10; // seconds
 const FPS = 30;
