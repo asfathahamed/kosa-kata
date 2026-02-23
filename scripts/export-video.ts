@@ -4,18 +4,18 @@ import path from "path";
 import { spawn } from "child_process";
 import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename: string = fileURLToPath(import.meta.url);
+const __dirname: string = path.dirname(__filename);
 
 // Adjusted paths to point to the project root (one level up from scripts/)
-const OUTPUT_DIR = path.join(__dirname, "../video-frames");
-const VIDEO_OUTPUT_DIR = path.join(__dirname, "../output-video");
-let VIDEO_OUTPUT = null; // will be set dynamically using the root word and timestamp
-const DURATION = 10; // seconds
-const FPS = 30;
-const TOTAL_FRAMES = DURATION * FPS;
+const OUTPUT_DIR: string = path.join(__dirname, "../video-frames");
+const VIDEO_OUTPUT_DIR: string = path.join(__dirname, "../output-video");
+let VIDEO_OUTPUT: string | null = null; // will be set dynamically using the root word and timestamp
+const DURATION: number = 10; // seconds
+const FPS: number = 30;
+const TOTAL_FRAMES: number = DURATION * FPS;
 
-async function captureFrames() {
+async function captureFrames(): Promise<void> {
   console.log("🎬 Starting video capture...");
 
   // Clean up old frames
@@ -46,18 +46,18 @@ async function captureFrames() {
 
   // Read the root word from the page and build an output filename
   try {
-    const rawRoot = await page.$eval(
+    const rawRoot: string = await page.$eval(
       "#root-word",
-      (el) => el.textContent || "",
+      (el: Element) => el.textContent || "",
     );
-    const root = (rawRoot || "word-animation").trim();
+    const root: string = (rawRoot || "word-animation").trim();
     // sanitize filename: allow alphanumerics, dash and underscore
-    const safeRoot = root.replace(/[^a-zA-Z0-9-_]/g, "_");
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const safeRoot: string = root.replace(/[^a-zA-Z0-9-_]/g, "_");
+    const timestamp: string = new Date().toISOString().replace(/[:.]/g, "-");
     VIDEO_OUTPUT = path.join(VIDEO_OUTPUT_DIR, `${timestamp}-${safeRoot}.mp4`);
   } catch (err) {
     // fallback
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const timestamp: string = new Date().toISOString().replace(/[:.]/g, "-");
     VIDEO_OUTPUT = path.join(
       VIDEO_OUTPUT_DIR,
       `${timestamp}-word-animation.mp4`,
@@ -66,19 +66,19 @@ async function captureFrames() {
 
   // Ensure a guaranteed cover frame (initial static frame) is saved as the first frame
   console.log(`📸 Capturing ${TOTAL_FRAMES} frames...`);
-  const firstFramePath = path.join(OUTPUT_DIR, `frame-00000.png`);
+  const firstFramePath: string = path.join(OUTPUT_DIR, `frame-00000.png`);
   try {
     // Give the page a single tick to apply styles/classes, then capture the cover
     await page.waitForTimeout(100);
     await page.screenshot({ path: firstFramePath, omitBackground: false });
-  } catch (err) {
+  } catch (err: any) {
     console.warn("⚠️ Could not capture cover frame:", err.message);
   }
 
   // Capture frames
   for (let i = 0; i < TOTAL_FRAMES; i++) {
-    const frameNumber = String(i).padStart(5, "0");
-    const framePath = path.join(OUTPUT_DIR, `frame-${frameNumber}.png`);
+    const frameNumber: string = String(i).padStart(5, "0");
+    const framePath: string = path.join(OUTPUT_DIR, `frame-${frameNumber}.png`);
 
     await page.screenshot({
       path: framePath,
@@ -98,10 +98,13 @@ async function captureFrames() {
   console.log("✓ Frame capture complete!");
 }
 
-async function createVideo() {
+async function createVideo(): Promise<void> {
   console.log("🎥 Creating video from frames...");
 
   return new Promise((resolve, reject) => {
+    if (!VIDEO_OUTPUT) {
+      return reject(new Error("VIDEO_OUTPUT path is not set."));
+    }
     const ffmpeg = spawn("ffmpeg", [
       "-framerate",
       FPS.toString(),
@@ -119,15 +122,15 @@ async function createVideo() {
       VIDEO_OUTPUT,
     ]);
 
-    ffmpeg.stdout.on("data", (data) => {
+    ffmpeg.stdout.on("data", (data: any) => {
       process.stdout.write(`${data}`);
     });
 
-    ffmpeg.stderr.on("data", (data) => {
+    ffmpeg.stderr.on("data", (data: any) => {
       process.stderr.write(`${data}`);
     });
 
-    ffmpeg.on("close", (code) => {
+    ffmpeg.on("close", (code: number | null) => {
       if (code === 0) {
         console.log(`\n✓ Video created successfully: ${VIDEO_OUTPUT}`);
         resolve();
@@ -136,25 +139,25 @@ async function createVideo() {
       }
     });
 
-    ffmpeg.on("error", (err) => {
+    ffmpeg.on("error", (err: Error) => {
       reject(err);
     });
   });
 }
 
-async function cleanup() {
+async function cleanup(): Promise<void> {
   console.log("🧹 Cleaning up frames...");
   fs.removeSync(OUTPUT_DIR);
   console.log("✓ Cleanup complete!");
 }
 
-async function main() {
+async function main(): Promise<void> {
   try {
     await captureFrames();
     await createVideo();
     await cleanup();
     console.log("\n✅ Video export complete! Ready to upload to Instagram.");
-  } catch (error) {
+  } catch (error: any) {
     console.error("❌ Error:", error.message);
     process.exit(1);
   }

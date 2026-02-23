@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import wordData from "./data/word.json";
+import { WordData, Derivation } from "./types";
 
 function App() {
-  const [config, setConfig] = useState(wordData);
+  const [config, setConfig] = useState<WordData>(wordData);
 
   useEffect(() => {
     const content = document.querySelector(".content");
@@ -28,7 +29,7 @@ function App() {
 
       <ul className="derivations" id="deriv-list">
         {derivations &&
-          derivations.map((deriv, idx) => {
+          derivations.map((deriv: Derivation, idx: number) => {
             let finalWord = "";
             if (deriv.fullWord && deriv.fullWord.trim())
               finalWord = deriv.fullWord.trim();
@@ -38,7 +39,7 @@ function App() {
               if (deriv.suffix) finalWord += deriv.suffix.replace(/-/g, "");
             }
             return (
-              <li key={idx} style={{ ["--i"]: idx }}>
+              <li key={idx} style={{ "--i": idx } as React.CSSProperties}>
                 <span
                   dangerouslySetInnerHTML={{
                     __html: `${deriv.prefix ? `<span class='prefix'>${deriv.prefix}</span>` : ""}${deriv.body}${deriv.suffix ? `<span class='suffix'>${deriv.suffix}</span>` : ""}`,

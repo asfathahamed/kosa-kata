@@ -9,7 +9,7 @@ export default defineConfig({
       name: 'kosa-kata',
       filename: 'remoteEntry.js',
       exposes: {
-        './ReelApp': './src/App.jsx'
+        './ReelApp': './src/App.tsx'
       }
     })
   ],
